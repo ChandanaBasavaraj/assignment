@@ -1,0 +1,117 @@
+mysql> create databases chandana;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databases chandana' at line 1
+mysql> create database chandana;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| chandana           |
+| chandanab          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use chandana
+Database changed
+mysql> create table physicians (id int(10),
+    -> name varchar(20),
+    -> password varchar(10),.
+    -> primary key(name));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary key(name))' at line 4
+mysql> create table physicians (id int(10),
+    -> name varchar(20),
+    -> password varchar(10),.
+    -> primary key(name));
+mysql> create table physicians (id int(10),
+    ->  name varchar(20),
+    -> password varchar(10),
+    ->    primary key(name));
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> insert into physicians values('1','chandana','123');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into physicians values('2','rakesh','223');
+Query OK, 1 row affected (0.04 sec)
+mysql> insert into physicians values('3','jhajith','323');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from physician;
+ERROR 1146 (42S02): Table 'chandana.physician' doesn't exist
+mysql> select * from physicians;
++------+----------+----------+
+| id   | name     | password |
++------+----------+----------+
+|    1 | chandana | 123      |
+|    3 | jhajith  | 323      |
+|    2 | rakesh   | 223      |
++------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> create table patients(idpatient int(10),
+    -> personalno int(10),
+    -> firstname varchar(10),
+    -> secondname varchar(10),
+    -> sex varchar(7),
+    -> dateofbirth varchar(20),
+    -> placeofbirth varchar(20),
+    -> placeofresidence varchar(30),
+    -> foreign key(physician) references physicians(name));
+ERROR 1072 (42000): Key column 'physician' doesn't exist in table
+mysql> create table patients(idpatient int(10), personalno int(10), firstname varchar(10), secondname varchar(10), sex varchar(7), dateofbirth varchar(20), placeofbirth varchar(20), placeofresidence varchar(30),physician varchar(10), foreign key(physician) references physicians(name));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> insert into patients values('1','123','chandanna','b','female','aug 28','banglore','chickbalapura','chandana');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from patients;
++-----------+------------+-----------+------------+--------+-------------+--------------+------------------+-----------+
+| idpatient | personalno | firstname | secondname | sex    | dateofbirth | placeofbirth | placeofresidence | physician |
++-----------+------------+-----------+------------+--------+-------------+--------------+------------------+-----------+
+|         1 |        123 | chandanna | b          | female | aug 28      | banglore     | chickbalapura    | chandana  |
++-----------+------------+-----------+------------+--------+-------------+--------------+------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> create table bonestage(
+    -> id int(10),
+    -> name varchar(30),
+    -> stages int(10),
+    -> primary key(id));
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> create table bones(
+    -> id int(10),
+    -> bone varchar(20),
+    -> stage int(10),
+    -> text varchar(255));
+Query OK, 0 rows affected (0.27 sec)
+mysql> create table bones( id int(10), bone varchar(20), stage int(10), text varchar(255),
+    -> primary key(stage));
+ERROR 1050 (42S01): Table 'bones' already exists
+mysql> drop table bones;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> create table bones( id int(10), bone varchar(20), stage int(10), text varchar(255), primary key(stage));
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> insert into bonestage value('1','bonecancer','2');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * ffrom bonestage
+    -> select * from bonestage;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ffrom bonestage
+select * from bonestage' at line 1
+mysql> select * from bonestage;
++----+------------+--------+
+| id | name       | stages |
++----+------------+--------+
+|  1 | bonecancer |      2 |
++----+------------+--------+
+1 row in set (0.00 sec)
+mysql> create table consultations(idconsultation int(10), personalno int(10), dateofconsultation varchar(20), weight int(10), height int(10), diagnostic int(10), selectedbones varchar(30), realscore int(10), maturityscore int(10), boneage int(10), physician int(10), foreign key(personalno) references patients(personalno), foreign key(diagnostic) references bones(stage), foreign key(diagnostic) references bonestage(id)); 
+Query OK, 0 rows affected (0.24 sec)
